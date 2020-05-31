@@ -2,12 +2,12 @@ from src.Crate import Crate
 from src.Request import Request
 
 
-class OrdersHistogram(Request):
+class PriceOverviewRequest(Request):
     def __init__(self, api, endpoint):
         super().__init__(api, endpoint)
 
     def get_data(self, crate: Crate):
-        param = crate.histogram_id
+        param = crate.price_overview_name
         response = self.make_request(param)
         return self.parse_response(response)
 

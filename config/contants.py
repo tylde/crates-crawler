@@ -5,3 +5,6 @@ CRATE_SUFFIX = {
     'HISTOGRAM_ID_SUFFIX': '_ITEM_ORDERS_HISTOGRAM_ID',
     'PRICE_OVERVIEW_SUFFIX': '_PRICE_OVERVIEW_NAME'
 }
+
+SUMMARY_REGEX = "(?<=<span class=\"market_commodity_orders_header_promote\">)[0-9]+(?=</span>)"
+

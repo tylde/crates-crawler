@@ -1,4 +1,6 @@
-class OverviewSheet:
+from src.Sheet import Sheet
+
+
+class OverviewSheet(Sheet):
     def __init__(self, workbook):
-        self.workbook = workbook
-        pass
+        super().__init__(workbook)

@@ -2,6 +2,7 @@ from openpyxl import load_workbook, Workbook
 
 from src.Crate import Crate
 from src.HistogramSheet import HistogramSheet
+from src.OrdersHistogramData import OrdersHistogramData
 
 from config.index import OVERVIEW_SHEET_NAME
 
@@ -23,10 +24,9 @@ class Spreadsheet:
         workbook.save(self.filename)
         return workbook
 
-    def insert_histogram_data(self, crate: Crate, data):
+    def insert_histogram_data(self, crate: Crate, time, data: OrdersHistogramData):
         histogram_sheet = HistogramSheet(self.workbook, crate)
-        histogram_sheet.insert_data(data)
-        pass
+        histogram_sheet.insert_histogram_data(time, data)
 
     def save(self):
         self.workbook.save(self.filename)
