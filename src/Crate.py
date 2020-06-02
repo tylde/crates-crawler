@@ -1,5 +1,5 @@
-from config.crates_dictonary import crates_dictonary
 from config.contants import CRATE_SUFFIX
+from config.crates_dictonary import crates_dictonary
 
 
 class Crate:
@@ -11,4 +11,4 @@ class Crate:
         self.price_overview_name = crates_dictonary.get(crate_name + CRATE_SUFFIX.get('PRICE_OVERVIEW_SUFFIX'))
 
     def __str__(self):
-        return str(self.name) + ' (' + str(self.short_name) + ')'
+        return '<Crate \"' + str(self.short_name) + '\">'

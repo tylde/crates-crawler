@@ -3,6 +3,8 @@ from openpyxl import load_workbook, Workbook
 from src.Crate import Crate
 from src.HistogramSheet import HistogramSheet
 from src.OrdersHistogramData import OrdersHistogramData
+from src.OverviewSheet import OverviewSheet
+from src.PriceOverviewData import PriceOverviewData
 
 from config.index import OVERVIEW_SHEET_NAME
 
@@ -24,12 +26,22 @@ class Spreadsheet:
         workbook.save(self.filename)
         return workbook
 
-    def insert_histogram_data(self, crate: Crate, time, data: OrdersHistogramData):
+    def insert_price_overview_data(self, crate: Crate, time, data: PriceOverviewData):
         histogram_sheet = HistogramSheet(self.workbook, crate)
-        histogram_sheet.insert_histogram_data(time, data)
+        histogram_sheet.insert_price_overview_data(time, data)
+
+    def insert_histogram_data(self, crate: Crate, datetime, data: OrdersHistogramData):
+        histogram_sheet = HistogramSheet(self.workbook, crate)
+        histogram_sheet.insert_histogram_data(datetime, data)
+
+        overview_sheet = OverviewSheet(self.workbook, OVERVIEW_SHEET_NAME)
+        overview_sheet.insert_histogram_data(datetime, data, crate)
 
     def save(self):
-        self.workbook.save(self.filename)
+        try:
+            self.workbook.save(self.filename)
+        except PermissionError:
+            print('\033[91m' + 'Cannot save workbook' + '\033[0m')
 
     def __str__(self):
-        return 'Spreadsheet: ' + self.filename
+        return '<Spreadsheet \"' + self.filename + '\">'

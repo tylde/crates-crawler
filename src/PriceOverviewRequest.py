@@ -1,4 +1,5 @@
 from src.Crate import Crate
+from src.PriceOverviewData import PriceOverviewData
 from src.Request import Request
 
 
@@ -7,12 +8,12 @@ class PriceOverviewRequest(Request):
         super().__init__(api, endpoint)
 
     def get_data(self, crate: Crate):
-        param = crate.price_overview_name
-        response = self.make_request(param)
-        return self.parse_response(response)
+        response = self.make_request(crate.price_overview_name)
+        return PriceOverviewRequest.parse_response(response)
 
-    def parse_response(self, response):
-        return response
+    @staticmethod
+    def parse_response(response):
+        return PriceOverviewData.from_response(response)
 
     def __str__(self):
-        return 'OrdersHistogram'
+        return '<PriceOverviewRequest>'

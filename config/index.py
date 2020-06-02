@@ -6,6 +6,8 @@ PRICE_OVERVIEW_URL = '/market/priceoverview/?currency=6&appid=730&market_hash_na
 
 SAVE_TO_DB = False
 
-DATA_FILENAME = 'crates.xlsx'
+OUTPUT_DIR = 'data/'
+OUTPUT_FILENAME = 'crates.xlsx'
+OUTPUT = OUTPUT_DIR + OUTPUT_FILENAME
 
 OVERVIEW_SHEET_NAME = 'Overview'

@@ -1,4 +1,5 @@
 from requests import get, exceptions as ex
+from requests.exceptions import HTTPError
 
 
 class Request:
@@ -9,14 +10,11 @@ class Request:
     def make_request(self, param):
         try:
             url = self.api + self.endpoint + str(param)
-            print(url)
-            response = get(url).json()
-            return response
-        except ex.ConnectionError:
-            pass
-        except ex.HTTPError:
-            pass
-        except ex.TooManyRedirects:
-            pass
-        except ex.Timeout:
-            pass
+            response = get(url)
+            print(response.status_code)
+            if response.status_code == 200:
+                return response.json()
+            return None
+        except HTTPError as error:
+            print(f'HTTP error occurred: {error}')
+            print(error.response.status_code)

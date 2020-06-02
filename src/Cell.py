@@ -1,4 +1,4 @@
-from openpyxl.styles import PatternFill, Protection
+from openpyxl.styles import PatternFill, Protection, numbers
 
 from src.CellAlignment import CellAlignment
 from src.CellBorder import CellBorder
@@ -14,10 +14,40 @@ class Cell(CellAlignment, CellBorder, CellFont):
         self.cell = cell
 
     @classmethod
-    def get(cls, workbook, sheet_name, cell_name):
+    def get_by_name(cls, workbook, sheet_name, cell_name):
         sheet_index = workbook.sheetnames.index(sheet_name)
         cell = workbook.worksheets[sheet_index][cell_name]
         return cls(cell)
+
+    @classmethod
+    def get_by_index(cls, workbook, sheet_name, row, column):
+        sheet_index = workbook.sheetnames.index(sheet_name)
+        cell = workbook.worksheets[sheet_index].cell(row, column)
+        return cls(cell)
+
+    @property
+    def value(self):
+        return self.cell.value
+
+    def set_value(self, value):
+        self.cell.value = value
+        return self
+
+    @property
+    def row(self):
+        return self.cell.row
+
+    @property
+    def column(self):
+        return self.cell.column
+
+    @property
+    def coordinate(self):
+        return self.cell.coordinate
+
+    def number_format(self):
+        self.cell.number_format = numbers.BUILTIN_FORMATS[3]
+        return self
 
     def fill(self, color):
         self.cell.fill = PatternFill(start_color=color, end_color=color, fill_type="solid")
@@ -31,6 +61,5 @@ class Cell(CellAlignment, CellBorder, CellFont):
         self.cell.protection = Protection(locked=False)
         return self
 
-    def value(self, value):
-        self.cell.value = value
-        return self
+    def __str__(self):
+        return '<CellWrapper[' + str(self.row) + ',' + str(self.column) + '] \"' + self.coordinate + '\">'

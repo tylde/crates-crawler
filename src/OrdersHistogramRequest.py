@@ -8,8 +8,7 @@ class OrdersHistogramRequest(Request):
         super().__init__(api, endpoint)
 
     def get_data(self, crate: Crate):
-        param = crate.histogram_id
-        response = self.make_request(param)
+        response = self.make_request(crate.histogram_id)
         return OrdersHistogramRequest.parse_response(response)
 
     @staticmethod
@@ -17,4 +16,4 @@ class OrdersHistogramRequest(Request):
         return OrdersHistogramData.from_response(response)
 
     def __str__(self):
-        return 'OrdersHistogramRequest'
+        return '<OrdersHistogramRequest>'
