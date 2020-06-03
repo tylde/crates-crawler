@@ -1,11 +1,12 @@
-from openpyxl.styles import PatternFill, Protection, numbers
+from openpyxl.styles import Protection, numbers
 
 from src.CellAlignment import CellAlignment
 from src.CellBorder import CellBorder
+from src.CellFill import CellFill
 from src.CellFont import CellFont
 
 
-class Cell(CellAlignment, CellBorder, CellFont):
+class Cell(CellAlignment, CellBorder, CellFill, CellFont):
     def __init__(self, cell):
         CellAlignment.__init__(self, cell)
         CellBorder.__init__(self, cell)
@@ -47,10 +48,6 @@ class Cell(CellAlignment, CellBorder, CellFont):
 
     def number_format(self):
         self.cell.number_format = numbers.BUILTIN_FORMATS[3]
-        return self
-
-    def fill(self, color):
-        self.cell.fill = PatternFill(start_color=color, end_color=color, fill_type="solid")
         return self
 
     def lock(self):

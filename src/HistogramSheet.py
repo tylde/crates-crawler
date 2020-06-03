@@ -8,8 +8,6 @@ from src.OrdersHistogramData import OrdersHistogramData
 from src.PriceOverviewData import PriceOverviewData
 from src.Sheet import Sheet
 
-from config.contants import BUY_HISTOGRAM_COLOR, SELL_HISTOGRAM_COLOR, VOLUME_HISTOGRAM_COLOR, PRICE_HISTOGRAM_COLOR
-
 
 class HistogramSheet(Sheet):
     def __init__(self, workbook: Workbook, crate: Crate):
@@ -48,7 +46,7 @@ class HistogramSheet(Sheet):
             sell_cell.center().border_bottom('thin').border_right('thin').bold().set_value(SELL_COLUMN_NAME)
             self.set_column_index_width(SELL_COLUMN_INDEX, 12)
 
-    def _insert_order_list(self, order_list, row_index, color):
+    def _insert_order_list(self, order_list, row_index, pattern_name, pattern_level):
         current_column_index = ORDERS_COLUMN_START_INDEX
         for order in order_list:
             [order_price, order_amount] = order
@@ -65,7 +63,7 @@ class HistogramSheet(Sheet):
                 header_cell = self.cell_by_index(1, current_column_index)
 
             order_cell = self.cell_by_index(row_index, current_column_index)
-            order_cell.set_value(order_amount).number_format().center().fill(color)
+            order_cell.set_value(order_amount).number_format().center().fill_by_pattern(pattern_name, pattern_level)
             current_column_index += 1
 
     def insert_price_overview_data(self, datetime, data: PriceOverviewData):
@@ -74,7 +72,7 @@ class HistogramSheet(Sheet):
             row_index = self._find_available_row_index()
         volume_cell = self.cell_by_index(row_index, VOLUME_COLUMN_INDEX)
         if volume_cell.value is None:
-            volume_cell.set_value(data.volume).number_format().center().fill(VOLUME_HISTOGRAM_COLOR)
+            volume_cell.set_value(data.volume).number_format().center().fill_by_pattern("VIOLET", 0)
 
     def insert_histogram_data(self, datetime, data: OrdersHistogramData):
         row_index = self._find_by_date_row_index(datetime)
@@ -90,16 +88,16 @@ class HistogramSheet(Sheet):
             date_cell.set_value(datetime).center().border_right('thin')
 
         if price_cell.value is None:
-            price_cell.set_value(data.price).center().fill(PRICE_HISTOGRAM_COLOR)
+            price_cell.set_value(data.price).center().fill_by_pattern("YELLOW", 1)
 
         if buy_cell.value is None:
-            buy_cell.set_value(data.buy_orders).number_format().center().fill(BUY_HISTOGRAM_COLOR)
+            buy_cell.set_value(data.buy_orders).number_format().center().fill_by_pattern("ORANGE", 3)
 
         if sell_cell.value is None:
-            sell_cell.set_value(data.sell_orders).border_right('thin').number_format().center().fill(SELL_HISTOGRAM_COLOR)
+            sell_cell.set_value(data.sell_orders).border_right('thin').number_format().center().fill_by_pattern("BLUE", 3)
 
-        self._insert_order_list(data.buy_order_list[::-1], row_index, BUY_HISTOGRAM_COLOR)
-        self._insert_order_list(data.sell_order_list, row_index, SELL_HISTOGRAM_COLOR)
+        self._insert_order_list(data.buy_order_list[::-1], row_index, "ORANGE", 3)
+        self._insert_order_list(data.sell_order_list, row_index, "BLUE", 3)
 
     def __str__(self):
         return '<HistogramSheet \"' + self.name + '\">'

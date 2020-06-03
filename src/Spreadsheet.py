@@ -1,5 +1,6 @@
 from openpyxl import load_workbook, Workbook
 
+from src.ColorSheet import ColorSheet
 from src.Crate import Crate
 from src.HistogramSheet import HistogramSheet
 from src.OrdersHistogramData import OrdersHistogramData
@@ -37,11 +38,13 @@ class Spreadsheet:
         overview_sheet = OverviewSheet(self.workbook, OVERVIEW_SHEET_NAME)
         overview_sheet.insert_histogram_data(datetime, data, crate)
 
+    def insert_colors(self):
+        colors_sheet = ColorSheet(self.workbook, 'Colors')
+        colors_sheet.fill_colors()
+
     def save(self):
-        try:
-            self.workbook.save(self.filename)
-        except PermissionError:
-            print('\033[91m' + 'Cannot save workbook' + '\033[0m')
+        self.workbook.save(self.filename)
+
 
     def __str__(self):
         return '<Spreadsheet \"' + self.filename + '\">'

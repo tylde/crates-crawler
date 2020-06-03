@@ -7,14 +7,3 @@ CRATE_SUFFIX = {
 }
 
 SUMMARY_REGEX = "(?<=<span class=\"market_commodity_orders_header_promote\">)[0-9]+(?=</span>)"
-
-ORANGE_COLOR = 'fcd6b4'
-BLUE_COLOR = 'b7dee8'
-RED_COLOR = 'ffc7ce'
-YELLOW_COLOR = 'ffeb9c'
-GREEN_COLOR = 'c6efce'
-
-BUY_HISTOGRAM_COLOR = RED_COLOR
-SELL_HISTOGRAM_COLOR = GREEN_COLOR
-VOLUME_HISTOGRAM_COLOR = BLUE_COLOR
-PRICE_HISTOGRAM_COLOR = YELLOW_COLOR

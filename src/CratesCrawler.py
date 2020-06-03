@@ -21,17 +21,24 @@ class CratesCrawler:
         self.spreadsheet = Spreadsheet(self.output)
 
     def get_data(self):
-        for crate_name in self.crates_set:
-            crate = Crate(crate_name)
-
-            time = Time.now()
-            order_histogram_data = self.order_histogram.get_data(crate)
-            price_overview_data = self.price_overview.get_data(crate)
-
-            self.spreadsheet.insert_histogram_data(crate, time, order_histogram_data)
-            self.spreadsheet.insert_price_overview_data(crate, time, price_overview_data)
-
+        try:
             self.spreadsheet.save()
+            for crate_name in self.crates_set:
+                crate = Crate(crate_name)
+
+                time = Time.now()
+                order_histogram_data = self.order_histogram.get_data(crate)
+                price_overview_data = self.price_overview.get_data(crate)
+
+                self.spreadsheet.insert_histogram_data(crate, time, order_histogram_data)
+                self.spreadsheet.insert_price_overview_data(crate, time, price_overview_data)
+
+                self.spreadsheet.insert_colors()
+
+                self.spreadsheet.save()
+        except PermissionError:
+            print('\033[91m' + 'Cannot save workbook' + '\033[0m')
+
 
     def __str__(self):
         return '<CratesCrawler>'
