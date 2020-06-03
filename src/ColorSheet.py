@@ -1,4 +1,4 @@
-from src.Color import Color
+from utils.Color import Color
 from src.Sheet import Sheet
 from config.colors import PATTERNS, PATTERN_RANGE
 

@@ -1,7 +1,7 @@
 from openpyxl.styles import PatternFill
 
 from src.CellFont import CellFont
-from src.Color import Color
+from utils.Color import Color
 
 
 class CellFill(CellFont):

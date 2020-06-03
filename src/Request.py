@@ -1,5 +1,7 @@
-from requests import get, exceptions as ex
-from requests.exceptions import HTTPError
+from requests import get
+from requests.exceptions import HTTPError, ConnectionError
+
+from src.Time import Time
 
 
 class Request:
@@ -8,13 +10,21 @@ class Request:
         self.endpoint = endpoint
 
     def make_request(self, param):
+        request_time = Time()
+        request_status = 500
         try:
+            request_time.start()
             url = self.api + self.endpoint + str(param)
             response = get(url)
-            print(response.status_code)
+            request_status = response.status_code
             if response.status_code == 200:
                 return response.json()
             return None
+        except ConnectionError:
+            request_status = 500
+            return None
         except HTTPError as error:
-            print(f'HTTP error occurred: {error}')
-            print(error.response.status_code)
+            request_status = error.response.status_code
+        finally:
+            request_time.end()
+            print(f"Request: {request_status} ({request_time.result:0.3f}s)")

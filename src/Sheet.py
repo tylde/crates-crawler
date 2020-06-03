@@ -2,7 +2,7 @@ from openpyxl.utils import get_column_letter
 
 from src.Cell import Cell
 
-from config.sheet_config import DATE_COLUMN
+from config.sheet_config import DATE_COLUMN_LETTER, DATE_COLUMN_INDEX
 
 
 class Sheet:
@@ -51,14 +51,27 @@ class Sheet:
         self.sheet.insert_cols(index, 1)
 
     def _find_by_date_row_index(self, time):
-        for cell in self.sheet[DATE_COLUMN]:
+        for cell in self.sheet[get_column_letter(DATE_COLUMN_INDEX)]:
             if cell.value == time:
                 return cell.row
         return -1
 
     def _find_available_row_index(self):
-        for cell in self.sheet[DATE_COLUMN]:
+        for cell in self.sheet[get_column_letter(DATE_COLUMN_INDEX)]:
             if cell.value is None:
                 return cell.row
         else:
             return cell.row + 1
+
+    def _find_by_header_name(self, name):
+        for cell in self.sheet[1]:
+            if cell.value == name:
+                return cell.column
+        return -1
+
+    def _find_available_column_index(self):
+        for cell in self.sheet[1]:
+            if cell.value is None:
+                return cell.column
+        else:
+            return cell.column + 1
