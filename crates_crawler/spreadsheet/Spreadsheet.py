@@ -1,13 +1,12 @@
 from openpyxl import load_workbook, Workbook
 
-from src.ColorSheet import ColorSheet
-from src.Crate import Crate
-from src.HistogramSheet import HistogramSheet
-from src.OrdersHistogramData import OrdersHistogramData
-from src.OverviewSheet import OverviewSheet
-from src.PriceOverviewData import PriceOverviewData
-
 from config.index import OVERVIEW_SHEET_NAME
+from crates_crawler.model.Crate import Crate
+from crates_crawler.model.OrdersHistogramData import OrdersHistogramData
+from crates_crawler.model.PriceOverviewData import PriceOverviewData
+from crates_crawler.spreadsheet.sheet.ColorSheet import ColorSheet
+from crates_crawler.spreadsheet.sheet.HistogramSheet import HistogramSheet
+from crates_crawler.spreadsheet.sheet.OverviewSheet import OverviewSheet
 
 
 class Spreadsheet:

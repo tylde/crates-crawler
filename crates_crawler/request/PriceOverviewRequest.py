@@ -1,6 +1,6 @@
-from src.Crate import Crate
-from src.PriceOverviewData import PriceOverviewData
-from src.Request import Request
+from crates_crawler.model.Crate import Crate
+from crates_crawler.model.PriceOverviewData import PriceOverviewData
+from crates_crawler.request.Request import Request
 
 
 class PriceOverviewRequest(Request):

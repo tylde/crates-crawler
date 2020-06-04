@@ -1,8 +1,8 @@
 from openpyxl.utils import get_column_letter
 
-from src.Cell import Cell
+from crates_crawler.spreadsheet.cell.Cell import Cell
 
-from config.sheet_config import DATE_COLUMN_LETTER, DATE_COLUMN_INDEX
+from config.sheet_config import DATE_COLUMN_INDEX
 
 
 class Sheet:

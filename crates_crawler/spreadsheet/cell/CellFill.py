@@ -1,7 +1,7 @@
 from openpyxl.styles import PatternFill
 
-from src.CellFont import CellFont
-from utils.Color import Color
+from crates_crawler.spreadsheet.cell.CellFont import CellFont
+from crates_crawler.utils.Color import Color
 
 
 class CellFill(CellFont):

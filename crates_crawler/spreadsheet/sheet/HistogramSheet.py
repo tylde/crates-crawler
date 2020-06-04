@@ -3,10 +3,10 @@ from openpyxl import Workbook
 from config.sheet_config import DATE_COLUMN_INDEX, VOLUME_COLUMN_INDEX, BUY_COLUMN_INDEX, SELL_COLUMN_INDEX, \
     BUY_COLUMN_NAME, VOLUME_COLUMN_NAME, DATE_COLUMN_NAME, SELL_COLUMN_NAME, ORDERS_COLUMN_START_INDEX, \
     PRICE_COLUMN_INDEX, PRICE_COLUMN_NAME, STATUS_COLUMN_INDEX, STATUS_COLUMN_NAME
-from src.Crate import Crate
-from src.OrdersHistogramData import OrdersHistogramData
-from src.PriceOverviewData import PriceOverviewData
-from src.Sheet import Sheet
+from crates_crawler.model.Crate import Crate
+from crates_crawler.model.OrdersHistogramData import OrdersHistogramData
+from crates_crawler.model.PriceOverviewData import PriceOverviewData
+from crates_crawler.spreadsheet.sheet.Sheet import Sheet
 
 
 class HistogramSheet(Sheet):
@@ -80,8 +80,8 @@ class HistogramSheet(Sheet):
         if date_cell.value is None:
             date_cell.set_value(datetime).center().border_right('thin')
 
-        status_cell = self.cell_by_index(row_index, STATUS_COLUMN_INDEX)
         if data.status is False:
+            status_cell = self.cell_by_index(row_index, STATUS_COLUMN_INDEX)
             status_cell.set_value("!").fill_by_pattern("DARK", 5).border('thin').center()
 
         volume_cell = self.cell_by_index(row_index, VOLUME_COLUMN_INDEX)
@@ -97,8 +97,8 @@ class HistogramSheet(Sheet):
         if date_cell.value is None:
             date_cell.set_value(datetime).center().border_right('thin')
 
-        status_cell = self.cell_by_index(row_index, STATUS_COLUMN_INDEX)
         if data.status is False:
+            status_cell = self.cell_by_index(row_index, STATUS_COLUMN_INDEX)
             status_cell.set_value("!").fill_by_pattern("DARK", 5).border('thin').center()
 
         price_cell = self.cell_by_index(row_index, PRICE_COLUMN_INDEX)

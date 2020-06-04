@@ -1,10 +1,9 @@
-from src.Crate import Crate
-from src.OrdersHistogramRequest import OrdersHistogramRequest
-from src.PriceOverviewRequest import PriceOverviewRequest
-from src.Spreadsheet import Spreadsheet
-from src.Time import Time
-
 from config.index import ITEM_ORDERS_HISTOGRAM_URL, PRICE_OVERVIEW_URL
+from crates_crawler.model.Crate import Crate
+from crates_crawler.request.OrdersHistogramRequest import OrdersHistogramRequest
+from crates_crawler.request.PriceOverviewRequest import PriceOverviewRequest
+from crates_crawler.spreadsheet.Spreadsheet import Spreadsheet
+from crates_crawler.utils.Time import Time
 
 
 class CratesCrawler:

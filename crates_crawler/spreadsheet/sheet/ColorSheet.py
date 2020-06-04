@@ -1,6 +1,6 @@
-from utils.Color import Color
-from src.Sheet import Sheet
 from config.colors import PATTERNS, PATTERN_RANGE
+from crates_crawler.spreadsheet.sheet.Sheet import Sheet
+from crates_crawler.utils.Color import Color
 
 
 class ColorSheet(Sheet):

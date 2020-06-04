@@ -1,6 +1,6 @@
-from src.Crate import Crate
-from src.OrdersHistogramData import OrdersHistogramData
-from src.Request import Request
+from crates_crawler.model.Crate import Crate
+from crates_crawler.model.OrdersHistogramData import OrdersHistogramData
+from crates_crawler.request.Request import Request
 
 
 class OrdersHistogramRequest(Request):

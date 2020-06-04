@@ -1,9 +1,9 @@
 from openpyxl.styles import Protection, numbers
 
-from src.CellAlignment import CellAlignment
-from src.CellBorder import CellBorder
-from src.CellFill import CellFill
-from src.CellFont import CellFont
+from crates_crawler.spreadsheet.cell.CellAlignment import CellAlignment
+from crates_crawler.spreadsheet.cell.CellBorder import CellBorder
+from crates_crawler.spreadsheet.cell.CellFill import CellFill
+from crates_crawler.spreadsheet.cell.CellFont import CellFont
 
 
 class Cell(CellAlignment, CellBorder, CellFill, CellFont):

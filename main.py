@@ -1,8 +1,7 @@
-from src.CratesCrawler import CratesCrawler
 from config.crates_set import crates_set
-
-from config.index import LOCAL_API, STEAM_API, OUTPUT
-from src.Time import Time
+from config.index import STEAM_API, OUTPUT
+from crates_crawler.CratesCrawler import CratesCrawler
+from crates_crawler.utils.Time import Time
 
 stopper = Time()
 

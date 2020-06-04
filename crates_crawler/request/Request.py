@@ -1,7 +1,7 @@
 from requests import get
 from requests.exceptions import HTTPError, ConnectionError
 
-from src.Time import Time
+from crates_crawler.utils.Time import Time
 
 
 class Request:
