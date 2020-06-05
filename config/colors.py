@@ -44,9 +44,9 @@ COLORS = {
     'VIOLET_4': '6f30a0',
     'VIOLET_5': '57257d',
 
-    'DARK_0': 'd9d9d9',
-    'DARK_1': 'bfbfbf',
-    'DARK_2': 'a6a6a6',
+    'DARK_0': 'f2f2f2',
+    'DARK_1': 'd9d9d9',
+    'DARK_2': 'bfbfbf',
     'DARK_3': '808080',
     'DARK_4': '595959',
     'DARK_5': '404040',

@@ -32,7 +32,7 @@ class HistogramSheet(Sheet):
             self.set_column_index_width(DATE_COLUMN_INDEX, 20)
 
         if status_cell.value != STATUS_COLUMN_NAME:
-            status_cell.center().border_bottom('thin').border_right('thin').bold().set_value(STATUS_COLUMN_NAME)
+            status_cell.center().border_bottom('thin').bold().set_value(STATUS_COLUMN_NAME)
             self.set_column_index_width(STATUS_COLUMN_INDEX, 3)
 
         if price_cell.value != PRICE_COLUMN_NAME:
@@ -71,6 +71,18 @@ class HistogramSheet(Sheet):
             order_cell.set_value(order_amount).number_format().center().fill_by_pattern(pattern_name, pattern_level)
             current_column_index += 1
 
+    def _get_volume_ratio(self, row_index, data: PriceOverviewData):
+        last_day_row_index = self._get_last_day_row_index(row_index)
+
+        if last_day_row_index < 1:
+            return 1
+
+        last_day_volume = self.cell_by_index(last_day_row_index, VOLUME_COLUMN_INDEX).value
+        if last_day_volume is None:
+            return 1
+
+        return data.volume / last_day_volume
+
     def insert_price_overview_data(self, datetime, data: PriceOverviewData):
         row_index = self._find_by_date_row_index(datetime)
         if row_index == -1:
@@ -84,9 +96,49 @@ class HistogramSheet(Sheet):
             status_cell = self.cell_by_index(row_index, STATUS_COLUMN_INDEX)
             status_cell.set_value("!").fill_by_pattern("DARK", 5).border('thin').center()
 
+        volume_ratio = self._get_volume_ratio(row_index, data)
+        (volume_color_pattern, volume_color_level) = self._get_ratio_color(volume_ratio)
+
         volume_cell = self.cell_by_index(row_index, VOLUME_COLUMN_INDEX)
         if volume_cell.value is None:
-            volume_cell.set_value(data.volume).number_format().center().fill_by_pattern("VIOLET", 0)
+            volume_cell.set_value(data.volume).number_format().center()\
+                .fill_by_pattern(volume_color_pattern, volume_color_level)
+
+    def _get_price_ratio(self, row_index, data: OrdersHistogramData):
+        last_day_row_index = self._get_last_day_row_index(row_index)
+
+        if last_day_row_index < 1:
+            return 1
+
+        last_day_price = self.cell_by_index(last_day_row_index, PRICE_COLUMN_INDEX).value
+        if last_day_price is None:
+            return 1
+
+        return data.price / last_day_price
+
+    def _get_sell_orders_ratio(self, row_index, data: OrdersHistogramData):
+        last_day_row_index = self._get_last_day_row_index(row_index)
+
+        if last_day_row_index < 1:
+            return 1
+
+        last_day_sell_orders = self.cell_by_index(last_day_row_index, SELL_COLUMN_INDEX).value
+        if last_day_sell_orders is None:
+            return 1
+
+        return data.sell_orders / last_day_sell_orders
+
+    def _get_buy_orders_ratio(self, row_index, data: OrdersHistogramData):
+        last_day_row_index = self._get_last_day_row_index(row_index)
+
+        if last_day_row_index < 1:
+            return 1
+
+        last_day_buy_orders = self.cell_by_index(last_day_row_index, BUY_COLUMN_INDEX).value
+        if last_day_buy_orders is None:
+            return 1
+
+        return data.buy_orders / last_day_buy_orders
 
     def insert_histogram_data(self, datetime, data: OrdersHistogramData):
         row_index = self._find_by_date_row_index(datetime)
@@ -101,20 +153,31 @@ class HistogramSheet(Sheet):
             status_cell = self.cell_by_index(row_index, STATUS_COLUMN_INDEX)
             status_cell.set_value("!").fill_by_pattern("DARK", 5).border('thin').center()
 
+        price_ratio = self._get_price_ratio(row_index, data)
+        (price_color_pattern, price_color_level) = self._get_ratio_color(price_ratio)
+
+        buy_orders_ratio = self._get_buy_orders_ratio(row_index, data)
+        (buy_orders_color_pattern, buy_orders_color_level) = self._get_ratio_color(buy_orders_ratio)
+
+        sell_orders_ratio = self._get_sell_orders_ratio(row_index, data)
+        (sell_orders_color_pattern, sell_orders_color_level) = self._get_ratio_color(sell_orders_ratio, True)
+
         price_cell = self.cell_by_index(row_index, PRICE_COLUMN_INDEX)
         if price_cell.value is None:
-            price_cell.set_value(data.price).center().fill_by_pattern("YELLOW", 1)
+            price_cell.set_value(data.price).center().fill_by_pattern(price_color_pattern, price_color_level)
 
         buy_cell = self.cell_by_index(row_index, BUY_COLUMN_INDEX)
         if buy_cell.value is None:
-            buy_cell.set_value(data.buy_orders).number_format().center().fill_by_pattern("ORANGE", 3)
+            buy_cell.set_value(data.buy_orders).number_format().center()\
+                .fill_by_pattern(buy_orders_color_pattern, buy_orders_color_level)
 
         sell_cell = self.cell_by_index(row_index, SELL_COLUMN_INDEX)
         if sell_cell.value is None:
-            sell_cell.set_value(data.sell_orders).border_right('thin').number_format().center().fill_by_pattern("BLUE", 3)
+            sell_cell.set_value(data.sell_orders).border_right('thin').number_format().center()\
+                .fill_by_pattern(sell_orders_color_pattern, sell_orders_color_level)
 
-        self._insert_order_list(data.buy_order_list[::-1], row_index, "YELLOW", 1)
-        self._insert_order_list(data.sell_order_list, row_index, "BLUE", 1)
+        self._insert_order_list(data.buy_order_list[::-1], row_index, "YELLOW", 0)
+        self._insert_order_list(data.sell_order_list, row_index, "BLUE", 0)
 
     def __str__(self):
         return '<HistogramSheet \"' + self.name + '\">'

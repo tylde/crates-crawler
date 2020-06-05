@@ -1,8 +1,8 @@
-crates_set = {
+crates_set = (
     'BREAKOUT',
-    # 'CHROMA',
-    # 'CHROMA_2',
-    # 'CHROMA_3',
+    'CHROMA',
+    'CHROMA_2',
+    'CHROMA_3',
     # 'CLUTCH',
     # 'DANGER_ZONE',
     'FALCHION',
@@ -15,4 +15,4 @@ crates_set = {
     # 'REVOLVER',
     # 'SPECTRUM',
     # 'SPECTRUM_2'
-}
+)

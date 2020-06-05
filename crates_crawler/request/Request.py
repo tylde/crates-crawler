@@ -5,9 +5,10 @@ from crates_crawler.utils.Time import Time
 
 
 class Request:
-    def __init__(self, api, endpoint):
+    def __init__(self, api, endpoint, name):
         self.api = api
         self.endpoint = endpoint
+        self.name = name
 
     def make_request(self, param):
         request_time = Time()
@@ -27,4 +28,4 @@ class Request:
             request_status = error.response.status_code
         finally:
             request_time.end()
-            print(f"Request: {request_status} ({request_time.result:0.3f}s)")
+            print(f"  Request {self.name}: {request_status} ({request_time.result:0.3f}s)")

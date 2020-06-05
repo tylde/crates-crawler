@@ -25,8 +25,8 @@ class CratesCrawler:
             datetime = Time.now()
             print(f"Datetime: {datetime}")
             for crate_name in self.crates_set:
-                print(f"{crate_name} data:")
                 crate = Crate(crate_name)
+                print(f"{crate.short_name} data:")
 
                 order_histogram_data = self.order_histogram.get_data(crate)
                 price_overview_data = self.price_overview.get_data(crate)
@@ -35,10 +35,12 @@ class CratesCrawler:
 
                 self.spreadsheet.insert_histogram_data(crate, datetime, order_histogram_data)
                 self.spreadsheet.insert_price_overview_data(crate, datetime, price_overview_data)
-                data_extraction_time.end()
-                print(f"Data extraction time: ({data_extraction_time.result:0.3f}s)")
 
-                self.spreadsheet.insert_colors()
+                data_extraction_time.end()
+                print(f"  Data extraction time: ({data_extraction_time.result:0.3f}s)")
+
+                # colors sheet
+                # self.spreadsheet.insert_colors()
 
                 self.spreadsheet.save()
         except PermissionError:

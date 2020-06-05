@@ -13,4 +13,3 @@ crawler.get_data()
 stopper.end()
 
 print(f"Program execution time: ({stopper.result:0.3f}s)")
-

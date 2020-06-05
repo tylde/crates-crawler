@@ -23,6 +23,17 @@ class OverviewSheet(Sheet):
             status_cell.center().border_bottom('thin').border_right('thin').bold().set_value(STATUS_COLUMN_NAME)
             self.set_column_index_width(STATUS_COLUMN_INDEX, 3)
 
+    def _get_sell_orders_ratio(self, row_index, column_index, data: OrdersHistogramData):
+        last_day_row_index = self._get_last_day_row_index(row_index)
+        if last_day_row_index < 1:
+            return 1
+
+        last_day_sell_orders = self.cell_by_index(last_day_row_index, column_index).value
+        if last_day_sell_orders is None:
+            return 1
+
+        return data.sell_orders / last_day_sell_orders
+
     def insert_histogram_data(self, datetime, data: OrdersHistogramData, crate: Crate):
         row_index = self._find_by_date_row_index(datetime)
         if row_index == -1:
@@ -43,6 +54,10 @@ class OverviewSheet(Sheet):
             status_cell = self.cell_by_index(row_index, STATUS_COLUMN_INDEX)
             status_cell.set_value("!").fill_by_pattern("DARK", 5).border('thin').center()
 
+        sell_orders_ratio = self._get_sell_orders_ratio(row_index, column_index, data)
+        (sell_orders_color_pattern, sell_orders_color_level) = self._get_ratio_color(sell_orders_ratio, True)
+
         value_cell = self.cell_by_index(row_index, column_index)
         if value_cell.value is None:
-            value_cell.set_value(data.sell_orders).number_format().center()
+            value_cell.set_value(data.sell_orders).number_format().center()\
+                .fill_by_pattern(sell_orders_color_pattern, sell_orders_color_level)

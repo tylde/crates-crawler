@@ -43,6 +43,10 @@ class Cell(CellAlignment, CellBorder, CellFill, CellFont):
         return self.cell.column
 
     @property
+    def sheet_name(self):
+        return self.cell.parent.title
+
+    @property
     def coordinate(self):
         return self.cell.coordinate
 
@@ -59,4 +63,4 @@ class Cell(CellAlignment, CellBorder, CellFill, CellFont):
         return self
 
     def __str__(self):
-        return '<CellWrapper[' + str(self.row) + ',' + str(self.column) + '] \"' + self.coordinate + '\">'
+        return f"CellWrapper {self.sheet_name}[{self.row}, {self.column}] \"{self.coordinate}\""

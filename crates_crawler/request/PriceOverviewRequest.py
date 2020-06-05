@@ -5,7 +5,7 @@ from crates_crawler.request.Request import Request
 
 class PriceOverviewRequest(Request):
     def __init__(self, api, endpoint):
-        super().__init__(api, endpoint)
+        super().__init__(api, endpoint, "OV")
 
     def get_data(self, crate: Crate):
         response = self.make_request(crate.price_overview_name)
