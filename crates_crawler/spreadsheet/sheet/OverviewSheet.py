@@ -50,8 +50,9 @@ class OverviewSheet(Sheet):
         if date_cell.value is None:
             date_cell.set_value(datetime).center().border_right('thin')
 
+        status_cell = self.cell_by_index(row_index, STATUS_COLUMN_INDEX)
+        status_cell.border_right('thin')
         if data.status is False:
-            status_cell = self.cell_by_index(row_index, STATUS_COLUMN_INDEX)
             status_cell.set_value("!").fill_by_pattern("DARK", 5).border('thin').center()
 
         sell_orders_ratio = self._get_sell_orders_ratio(row_index, column_index, data)

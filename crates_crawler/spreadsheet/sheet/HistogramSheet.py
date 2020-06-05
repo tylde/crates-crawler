@@ -32,7 +32,7 @@ class HistogramSheet(Sheet):
             self.set_column_index_width(DATE_COLUMN_INDEX, 20)
 
         if status_cell.value != STATUS_COLUMN_NAME:
-            status_cell.center().border_bottom('thin').bold().set_value(STATUS_COLUMN_NAME)
+            status_cell.center().border_bottom('thin').border_right('thin').bold().set_value(STATUS_COLUMN_NAME)
             self.set_column_index_width(STATUS_COLUMN_INDEX, 3)
 
         if price_cell.value != PRICE_COLUMN_NAME:
@@ -92,8 +92,9 @@ class HistogramSheet(Sheet):
         if date_cell.value is None:
             date_cell.set_value(datetime).center().border_right('thin')
 
+        status_cell = self.cell_by_index(row_index, STATUS_COLUMN_INDEX)
+        status_cell.border_right('thin')
         if data.status is False:
-            status_cell = self.cell_by_index(row_index, STATUS_COLUMN_INDEX)
             status_cell.set_value("!").fill_by_pattern("DARK", 5).border('thin').center()
 
         volume_ratio = self._get_volume_ratio(row_index, data)
@@ -149,9 +150,10 @@ class HistogramSheet(Sheet):
         if date_cell.value is None:
             date_cell.set_value(datetime).center().border_right('thin')
 
+        status_cell = self.cell_by_index(row_index, STATUS_COLUMN_INDEX)
+        status_cell.border_right('thin')
         if data.status is False:
-            status_cell = self.cell_by_index(row_index, STATUS_COLUMN_INDEX)
-            status_cell.set_value("!").fill_by_pattern("DARK", 5).border('thin').center()
+            status_cell.set_value("!").fill_by_pattern("DARK", 5).center()
 
         price_ratio = self._get_price_ratio(row_index, data)
         (price_color_pattern, price_color_level) = self._get_ratio_color(price_ratio)
