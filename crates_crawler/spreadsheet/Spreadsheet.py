@@ -1,12 +1,13 @@
 from openpyxl import load_workbook, Workbook
 
-from config.index import OVERVIEW_SHEET_NAME
+from config.index import OVERVIEW_SHEET_NAME, PRICE_SHEET_NAME
 from crates_crawler.model.Crate import Crate
 from crates_crawler.model.OrdersHistogramData import OrdersHistogramData
 from crates_crawler.model.PriceOverviewData import PriceOverviewData
 from crates_crawler.spreadsheet.sheet.ColorSheet import ColorSheet
 from crates_crawler.spreadsheet.sheet.HistogramSheet import HistogramSheet
 from crates_crawler.spreadsheet.sheet.OverviewSheet import OverviewSheet
+from crates_crawler.spreadsheet.sheet.PriceSheet import PriceSheet
 
 
 class Spreadsheet:
@@ -37,13 +38,15 @@ class Spreadsheet:
         overview_sheet = OverviewSheet(self.workbook, OVERVIEW_SHEET_NAME)
         overview_sheet.insert_histogram_data(datetime, data, crate)
 
+        price_sheet = PriceSheet(self.workbook, PRICE_SHEET_NAME)
+        price_sheet.insert_histogram_data(datetime, data, crate)
+
     def insert_colors(self):
         colors_sheet = ColorSheet(self.workbook, 'Colors')
         colors_sheet.fill_colors()
 
     def save(self):
         self.workbook.save(self.filename)
-
 
     def __str__(self):
         return '<Spreadsheet \"' + self.filename + '\">'

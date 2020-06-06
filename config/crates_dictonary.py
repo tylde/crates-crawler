@@ -24,8 +24,8 @@ crates_dictonary = {
   'CHROMA_2_PRICE_OVERVIEW_NAME': 'Chroma%202%20Case',
 
   'CHROMA_3_CRATE_ID': 'chromaCase3',
-  'CHROMA_3_CRATE_NAME': 'Croma 3 Case',
-  'CHROMA_3_CRATE_SHORT_NAME': 'Croma 3',
+  'CHROMA_3_CRATE_NAME': 'Chroma 3 Case',
+  'CHROMA_3_CRATE_SHORT_NAME': 'Chroma 3',
   'CHROMA_3_ITEM_ORDERS_HISTOGRAM_ID': 149865785,
   'CHROMA_3_PRICE_OVERVIEW_NAME': 'Chroma%203%20Case',
 

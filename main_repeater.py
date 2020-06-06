@@ -8,7 +8,7 @@ def main_loop():
     while 1:
         print(Time.now_with_seconds())
         os.system("python main.py")
-        next_interval = Time.timeout(600)
+        next_interval = Time.timeout(900)
         time.sleep(next_interval + 1)
 
 

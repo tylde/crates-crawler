@@ -52,6 +52,11 @@ class Time:
         diff = next_time - now
         return diff.seconds
 
+    @staticmethod
+    def backup():
+        now = datetime.now()
+        return now.strftime("%Y_%m_%d")
+
     def __str__(self):
         if self._start_time is not None:
             return f"<Time current: {(time() - self._start_time):0.5f}>"
