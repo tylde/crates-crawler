@@ -1,3 +1,6 @@
+LOCAL_API = 'http://localhost:27777/api'
+STEAM_API = 'http://steamcommunity.com'
+
 CRATE_SUFFIX = {
     'ID_SUFFIX': '_CRATE_ID',
     'NAME_SUFFIX': '_CRATE_NAME',

@@ -11,12 +11,12 @@ from crates_crawler.utils.Time import Time
 
 
 class CratesCrawler:
-    def __init__(self, api, crates_set, output_dir, output_filename, output_file_extension):
+    def __init__(self, api, required_crates, output_dir, output_filename, output_file_extension):
         self.API = api
         self.PRICE_OVERVIEW_URL = PRICE_OVERVIEW_URL
         self.ITEM_ORDERS_HISTOGRAM_URL = ITEM_ORDERS_HISTOGRAM_URL
 
-        self.crates_set = crates_set
+        self.required_crates = required_crates
         self.output_dir = output_dir
         self.output_filename = output_filename
         self.output_file_extension = output_file_extension
@@ -59,7 +59,7 @@ class CratesCrawler:
             datetime = Time.now()
             print(f"Datetime: {datetime}")
 
-            for crate_name in self.crates_set:
+            for crate_name in self.required_crates:
                 crate = Crate(crate_name)
                 print(f"{crate.short_name} data:")
 

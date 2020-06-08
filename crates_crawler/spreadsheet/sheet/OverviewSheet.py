@@ -1,7 +1,6 @@
 from config.sheet_config import DATE_COLUMN_INDEX, DATE_COLUMN_NAME, STATUS_COLUMN_NAME, STATUS_COLUMN_INDEX, \
     VALUE_COLUMN_WIDTH, HEADER_ROW_INDEX, STATUS_COLUMN_WIDTH, DATE_COLUMN_WIDTH
 from crates_crawler.model.Crate import Crate
-from crates_crawler.model.OrdersHistogramData import OrdersHistogramData
 from crates_crawler.spreadsheet.sheet.Sheet import Sheet
 
 
@@ -22,7 +21,7 @@ class OverviewSheet(Sheet):
         if status_cell.value != STATUS_COLUMN_NAME:
             self._create_header(STATUS_COLUMN_INDEX, STATUS_COLUMN_NAME, STATUS_COLUMN_WIDTH)
 
-    def insert_histogram_data(self, datetime, data: OrdersHistogramData, crate: Crate):
+    def _insert_value(self, datetime, status, value, crate: Crate, number_format, invert):
         row_index = self._find_by_date_row_index(datetime)
         if row_index == -1:
             row_index = self._find_available_row_index()
@@ -38,11 +37,13 @@ class OverviewSheet(Sheet):
 
         status_cell = self.cell_by_index(row_index, STATUS_COLUMN_INDEX)
         status_cell.border_right('thin')
-        if data.status is False:
+        if status is False:
             status_cell.set_value("!").fill_by_pattern("DARK", 5).border('thin').center()
 
         value_cell = self.cell_by_index(row_index, column_index)
         if value_cell.value is None:
-            value_cell.set_value(data.sell_orders).number_format().center()
-            self._fill_cell_ratio(row_index, column_index, True)
+            value_cell.set_value(value).center()
+            if number_format is True:
+                value_cell.number_format()
+            self._fill_cell_ratio(row_index, column_index, invert)
 

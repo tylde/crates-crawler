@@ -1,4 +1,4 @@
-crates_set = (
+REQUIRED_CASED = (
     'BREAKOUT',
     'CHROMA',
     'CHROMA_2',
