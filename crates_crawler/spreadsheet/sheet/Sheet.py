@@ -41,14 +41,19 @@ class Sheet:
     def cell_by_index(self, row, column):
         return Cell.get_by_index(self.workbook, self.name, row, column)
 
-    def set_column_width(self, column: str, width):
+    def _set_column_width(self, column: str, width):
         self.sheet.column_dimensions[column].width = width
 
-    def set_column_index_width(self, index: int, width):
+    def _set_column_index_width(self, index: int, width):
         self.sheet.column_dimensions[get_column_letter(index)].width = width
 
-    def insert_column(self, index):
+    def _insert_column(self, index):
         self.sheet.insert_cols(index, 1)
+
+    def _create_header(self, column_index, label, width=None):
+        self.cell_by_index(1, column_index).set_value(label).bold().center().border('thin')
+        if width is not None and width > 0:
+            self._set_column_index_width(column_index, width)
 
     def _find_by_date_row_index(self, time):
         for cell in self.sheet[get_column_letter(DATE_COLUMN_INDEX)]:
@@ -123,7 +128,6 @@ class Sheet:
         else:
             diff = -1 * (ratio - 1)
 
-        pattern_name = "DARK"
         if -0.005 < diff < 0.005:
             pattern_name = "DARK"
         elif diff > 0.005:
@@ -133,7 +137,6 @@ class Sheet:
 
         diff_abs = abs(diff)
 
-        level = 0
         if diff_abs < 0.025:
             level = 0
         elif 0.025 <= diff_abs < 0.05:
@@ -148,3 +151,24 @@ class Sheet:
             level = 5
 
         return pattern_name, level
+
+    def _get_ratio_to_last_day(self, row_index, column_index):
+        value = self.cell_by_index(row_index, column_index).value
+        if value is None:
+            return 1
+        last_day_row_index = self._get_last_day_row_index(row_index)
+        if last_day_row_index < 1:
+            return 1
+        last_day_value = self.cell_by_index(last_day_row_index, column_index).value
+        if last_day_value is None:
+            return 1
+        return value / last_day_value
+
+    def _fill_cell_ratio(self, row_index, cell_index, invert=False):
+        ratio = self._get_ratio_to_last_day(row_index, cell_index)
+        (color_pattern, color_level) = self._get_ratio_color(ratio, invert)
+        cell = self.cell_by_index(row_index, cell_index)
+        cell.fill_by_pattern(color_pattern, color_level)
+
+    def __str__(self):
+        return '<Sheet \"' + self.name + '\">'
